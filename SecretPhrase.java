@@ -1,59 +1,55 @@
-import javax.swing.JOptionPane;
+import java.util.Scanner; 
+import java.util.Random; 
 public class SecretPhrase {
     public static void main(String[] args) {
     
-    String secretPhrase = "G* T***";
-    final String correctPhrase = "Go Team";
-    String usersGuess; 
-    boolean isDone = false; 
+    String phrase[] = {"blue in the face", "ignorance is bliss", 
+        "my archilles heel", "hold your horses", "the worlds my oyster", 
+        "point of no return", "shiver me timbers", "tell it to the judge", 
+        "dont beat a dead horse", "no man is an island"};
+    boolean isFinished = false;
     
-    JOptionPane.showMessageDialog(null, "The objective of the game is to uncover the secret phrase");
-    JOptionPane.showMessageDialog(null, "Your secret phrase is (" + secretPhrase + ")");
+    Random random = new Random();
+    Scanner input = new Scanner(System.in);
     
-    do {
-        
-        usersGuess = JOptionPane.showInputDialog("Enter a letter for (" + secretPhrase + ")");
-        
-        if((!usersGuess.equalsIgnoreCase("o")) && (!usersGuess.equalsIgnoreCase("e")) && (!usersGuess.equalsIgnoreCase("a")) && (!usersGuess.equalsIgnoreCase("m"))) {
-            usersGuess = JOptionPane.showInputDialog("You entered a wrong letter! Please re-enter a letter for (" + secretPhrase + ")");
-        }
-        
-        if(usersGuess.equalsIgnoreCase("o")) {
-            JOptionPane.showMessageDialog(null, "You guess a correct letter!");
-            char ch = 'o';
-            int index = 1;
-            secretPhrase = secretPhrase.substring(0, index) + ch + secretPhrase.substring(index + 1);
-            JOptionPane.showMessageDialog(null, "The new phrase is " + secretPhrase);
-        }
-        
-        if(usersGuess.equalsIgnoreCase("e")) {
-            JOptionPane.showMessageDialog(null, "You guessed a correct letter!");
-            char ch = 'e';
-            int index = 4;
-            secretPhrase = secretPhrase.substring(0, index) + ch + secretPhrase.substring(index + 1);
-            JOptionPane.showMessageDialog(null, "The new phrase is " + secretPhrase);
-        }
-        
-        if(usersGuess.equalsIgnoreCase("a")) {
-            JOptionPane.showMessageDialog(null, "You guessed a correct letter!");
-            char ch = 'a';
-            int index = 5;
-            secretPhrase = secretPhrase.substring(0, index) + ch + secretPhrase.substring(index + 1);
-            JOptionPane.showMessageDialog(null, "The new phrase is " + secretPhrase);
-        }
-        
-        if(usersGuess.equalsIgnoreCase("m")) {
-            JOptionPane.showMessageDialog(null, "You guessed a correct letter!");
-            char ch = 'm';
-            int index = 6;
-            secretPhrase = secretPhrase.substring(0, index) + ch + secretPhrase.substring(index + 1);
-            JOptionPane.showMessageDialog(null, "The new phrase is " + secretPhrase);
-        }
-        
-        if (secretPhrase.equals(correctPhrase)) {
-            JOptionPane.showMessageDialog(null, "Congradulations! You guessed all of the correct letters!");
-            isDone = true; 
-        }
-    } while(isDone == false);
+    //users phrase withoout astericks 
+    int index = random.nextInt(phrase.length);
+    String userPhrase = phrase[index];
+    System.out.println(userPhrase);
+    
+    //usersphrase with astericks
+    String userSecretPhrase = userPhrase.replaceAll("[a-zA-Z]", "*");
+    
+    //turns the users phrase into a char array
+    char[] textArray = userPhrase.toCharArray(); 
+    
+    //used to compare the letters the user enters to what is in the textArray
+    char[] answers = new char[textArray.length];
+    for(int i = 0; i < textArray.length; ++i) {
+        answers[i] = '?';
     }
+    
+    
+    while(isFinished = false) {
+        String letter = input.next();
+        
+        while(letter.length() != 1 || Character.isDigit(letter.charAt(0))) {
+            System.out.println("Invalid Input: Re-enter letter");
+            letter = input.next();
+        }
+        
+        boolean found = false; 
+        for(int i = 0; i < textArray.length; ++i) {
+            if(letter.charAt(0) == textArray[i]) {
+                answers[i] = textArray[i];
+                found = true; 
+            }
+        }
+        
+        if(!found) {
+            System.out.println("Wrong letter");
+        }
+        
+    }
+}
 }
